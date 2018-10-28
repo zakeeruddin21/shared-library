@@ -2,6 +2,7 @@ def getNewArtifactVersion(build, majorVersion, minorVersion) {
   int patch=getLastArtifactPatchVersion(build.getPreviousBuild());
   patch+=1;
   String version = majorVersion+"."+minorVersion+"."+patch.toString();
+  build.displayName = "${env.BUILD_NUMBER} #${version}"
   // setBuildNameAndDescription(version, "SCM Checkout");
   return version;
 }
