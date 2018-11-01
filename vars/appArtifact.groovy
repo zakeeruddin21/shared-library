@@ -9,12 +9,12 @@ def getNewArtifactVersion(build, majorVersion, minorVersion) {
 
 def showEnvVar() {
   println "In showEnvVar()"
-  showEnvVar(str)
+  showEnvVar("testing overload")
   // println currentBuild.number
 }
 
 def showEnvVar(str) {
-  println "In showEnvVar(str)"
+  println "In showEnvVar(str) - ${str}"
   println currentBuild.number
 }
 
