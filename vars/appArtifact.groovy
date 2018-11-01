@@ -7,6 +7,10 @@ def getNewArtifactVersion(build, majorVersion, minorVersion) {
   return version;
 }
 
+def showEnvVar() {
+  println currentBuild.getPreviousBuild().buildVariables.artifactVersion.toString();
+}
+
 
 def int getLastArtifactPatchVersion(build) {
 	if (build == null) {
