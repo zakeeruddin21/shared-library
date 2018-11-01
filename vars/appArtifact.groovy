@@ -8,6 +8,13 @@ def getNewArtifactVersion(build, majorVersion, minorVersion) {
 }
 
 def showEnvVar() {
+  println "In showEnvVar()"
+  showEnvVar(str)
+  // println currentBuild.number
+}
+
+def showEnvVar(str) {
+  println "In showEnvVar(str)"
   println currentBuild.number
 }
 
