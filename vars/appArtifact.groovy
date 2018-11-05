@@ -1,14 +1,14 @@
 String artifactPickerScript = getPickerScriptFor();
 	
-def String getPickerScriptFor() {
-  return '''
+def String getPickerScriptFor(name) {
+  return """
 	import jenkins.model.Jenkins;
 	import hudson.model.AbstractProject;
 	import hudson.model.Result;
 	import hudson.util.RunList;
 	import hudson.model.TaskListener;
 
-	def buildJob = Jenkins.getInstance().getItem(\'PipelineOne\');
+	def buildJob = Jenkins.getInstance().getItem("${name}");
 	RunList<?> builds = buildJob.getBuilds().overThresholdOnly(Result.SUCCESS);
 
 	List<String> artifactVersions = [];
@@ -34,7 +34,7 @@ def String getPickerScriptFor() {
 	  }
 	}
 
-	return (artifactVersions.size()==0 ? [\'NA\'] : artifactVersions);''';
+	return (artifactVersions.size()==0 ? [\'NA\'] : artifactVersions);""";
 }
 
 def getNewArtifactVersion(build, majorVersion, minorVersion) {
