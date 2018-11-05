@@ -1,3 +1,41 @@
+String artifactPickerScript = getPickerScriptFor();
+	
+def getPickerScriptFor() {
+	return '''import jenkins.model.Jenkins;
+	import hudson.model.AbstractProject;
+	import hudson.model.Result;
+	import hudson.util.RunList;
+	import hudson.model.TaskListener;
+
+	def buildJob = Jenkins.getInstance().getItem(\'PipelineOne\');
+	RunList<?> builds = buildJob.getBuilds().overThresholdOnly(Result.SUCCESS);
+
+	List<String> artifactVersions = [];
+	if(ENV.toString() != \'dev\') {
+	  String previousEnv = \'\'
+	  if(ENV.toString() == \'qa\') {
+	    previousEnv = \'dev\'
+	  }
+	  else if(ENV.toString() == \'prf\') {
+	    previousEnv = \'qa\'
+	  }
+
+	  def list = builds.limit(20).collect { build ->
+	      if(build.getHasArtifacts() && build.getEnvironment(TaskListener.NULL)["ENV"] == previousEnv) {
+		build.getArtifactsDir().toString() + "/" + build.getArtifacts().toString().replaceAll("\\\\[", "").replaceAll("\\\\]", "");
+	      }
+	  };
+
+	  list.each { file ->
+	    if(file != null) { 
+	      artifactVersions.add(new File(file.toString()).text);
+	    }
+	  }
+	}
+
+	return (artifactVersions.size()==0 ? [\'NA\'] : artifactVersions);''';
+}
+
 def getNewArtifactVersion(build, majorVersion, minorVersion) {
   int patch=getLastArtifactPatchVersion(build.getPreviousBuild());
   patch+=1;
