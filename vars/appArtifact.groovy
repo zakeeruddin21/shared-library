@@ -1,6 +1,6 @@
 String artifactPickerScript = getPickerScriptFor();
 	
-def getPickerScriptFor() {
+def String getPickerScriptFor() {
 	return '''import jenkins.model.Jenkins;
 	import hudson.model.AbstractProject;
 	import hudson.model.Result;
